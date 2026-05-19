@@ -491,7 +491,7 @@
   function saveKey() {
     const key = apikeyInput.value.trim();
     if (!key.startsWith('sk-ant-')) {
-      apikeyStatus.textContent = 'That doesn\'t look right — Anthropic keys start with sk-ant-';
+      apikeyStatus.textContent = "That doesn't look right — Anthropic keys start with sk-ant-";
       apikeyStatus.className = 'apikey-status';
       return;
     }
@@ -517,7 +517,7 @@
     return localStorage.getItem('habla_api_key') || apikeyInput.value.trim();
   }
 
-  input.addEventListener('keydown', e => {
+  input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       translate();
@@ -540,26 +540,7 @@
     resultCard.classList.remove('visible');
     errorMsg.classList.remove('visible');
 
-    const prompt = `The user is learning Spain Spanish (Castilian, Spain). They want to say the following in English:
-
-"${text}"
-
-Respond ONLY with a valid JSON object — no markdown, no backticks, no explanation. Use this exact structure:
-
-{
-  "spanish": "the most natural, everyday Spain Spanish way to say this",
-  "note": "one short sentence about anything Spain-specific, tense used, or register (formal/informal) — keep it under 15 words",
-  "words": [
-    {
-      "spanish": "word as used in the sentence",
-      "type": "verb|noun|adjective|adverb|preposition|other",
-      "english": "translation of this word in context",
-      "infinitive": "if verb: the infinitive form, otherwise null"
-    }
-  ]
-}
-
-For compound forms like 'voy a', list each token separately. List words in the order they appear.`;
+    const prompt = 'The user is learning Spain Spanish (Castilian, Spain). They want to say the following in English:\n\n"' + text + '"\n\nRespond ONLY with a valid JSON object — no markdown, no backticks, no explanation. Use this exact structure:\n\n{\n  "spanish": "the most natural, everyday Spain Spanish way to say this",\n  "note": "one short sentence about anything Spain-specific, tense used, or register (formal/informal) — keep it under 15 words",\n  "words": [\n    {\n      "spanish": "word as used in the sentence",\n      "type": "verb|noun|adjective|adverb|preposition|other",\n      "english": "translation of this word in context",\n      "infinitive": "if verb: the infinitive form, otherwise null"\n    }\n  ]\n}\n\nFor compound forms like \'voy a\', list each token separately. List words in the order they appear.';
 
     try {
       const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -571,14 +552,22 @@ For compound forms like 'voy a', list each token separately. List words in the o
           'anthropic-dangerous-direct-browser-access': 'true'
         },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
+          model: 'claude-haiku-4-5-20251001',
           max_tokens: 1000,
           messages: [{ role: 'user', content: prompt }]
         })
       });
 
       const data = await response.json();
-      const raw = data.content.map(b => b.text || '').join('');
+
+      if (!response.ok) {
+        const msg = (data && data.error && data.error.message) ? data.error.message : ('API error ' + response.status);
+        showError('API error: ' + msg);
+        console.error(data);
+        return;
+      }
+
+      const raw = data.content.map(function(b) { return b.text || ''; }).join('');
       const clean = raw.replace(/```json|```/g, '').trim();
       const parsed = JSON.parse(clean);
 
@@ -586,7 +575,7 @@ For compound forms like 'voy a', list each token separately. List words in the o
       renderResult(parsed);
 
     } catch (err) {
-      showError('Something went wrong. Check your API key or try again.');
+      showError('Something went wrong: ' + err.message);
       console.error(err);
     } finally {
       submitBtn.disabled = false;
@@ -599,26 +588,27 @@ For compound forms like 'voy a', list each token separately. List words in the o
     notesStrip.textContent = data.note || '';
 
     vocabTable.innerHTML = '';
-    (data.words || []).forEach(w => {
+    (data.words || []).forEach(function(w) {
       const tr = document.createElement('tr');
 
-      const badgeClass = {
+      const badgeMap = {
         verb: 'badge-verb',
         noun: 'badge-noun',
         adjective: 'badge-adj',
         adverb: 'badge-adv',
         preposition: 'badge-prep'
-      }[w.type] || 'badge-other';
+      };
+      const badgeClass = badgeMap[w.type] || 'badge-other';
 
       const infinitiveLine = w.infinitive
-        ? `<div class="infinitive-note">infinitive: ${w.infinitive}</div>`
+        ? '<div class="infinitive-note">infinitive: ' + w.infinitive + '</div>'
         : '';
 
-      tr.innerHTML = `
-        <td class="td-spanish">${w.spanish}</td>
-        <td class="td-type"><span class="type-badge ${badgeClass}">${w.type}</span></td>
-        <td class="td-english">${w.english}${infinitiveLine}</td>
-      `;
+      tr.innerHTML =
+        '<td class="td-spanish">' + w.spanish + '</td>' +
+        '<td class="td-type"><span class="type-badge ' + badgeClass + '">' + w.type + '</span></td>' +
+        '<td class="td-english">' + w.english + infinitiveLine + '</td>';
+
       vocabTable.appendChild(tr);
     });
 
@@ -633,10 +623,9 @@ For compound forms like 'voy a', list each token separately. List words in the o
     utt.lang = 'es-ES';
     utt.rate = 0.88;
 
-    // Try to pick an es-ES voice if available
     const voices = window.speechSynthesis.getVoices();
-    const esVoice = voices.find(v => v.lang === 'es-ES') ||
-                    voices.find(v => v.lang.startsWith('es'));
+    const esVoice = voices.find(function(v) { return v.lang === 'es-ES'; }) ||
+                    voices.find(function(v) { return v.lang.startsWith('es'); });
     if (esVoice) utt.voice = esVoice;
 
     window.speechSynthesis.speak(utt);
