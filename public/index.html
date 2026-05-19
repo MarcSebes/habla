@@ -10,7 +10,6 @@
     --bg: #f5f0e8;
     --ink: #1a1410;
     --red: #c0392b;
-    --gold: #b8963e;
     --cream: #ede8da;
     --light: #e8e2d4;
     --muted: #8a7f6e;
@@ -24,12 +23,10 @@
     color: var(--ink);
     font-family: 'IBM Plex Sans', sans-serif;
     min-height: 100vh;
-    padding: 0;
     position: relative;
     overflow-x: hidden;
   }
 
-  /* Decorative background texture */
   body::before {
     content: '';
     position: fixed;
@@ -64,9 +61,7 @@
     color: var(--ink);
   }
 
-  .logo span {
-    color: var(--red);
-  }
+  .logo span { color: var(--red); }
 
   .tagline {
     margin-top: 8px;
@@ -77,10 +72,7 @@
     font-weight: 500;
   }
 
-  /* Input area */
-  .input-section {
-    margin-bottom: 36px;
-  }
+  .input-section { margin-bottom: 36px; }
 
   .input-label {
     font-size: 0.72rem;
@@ -143,7 +135,6 @@
   .submit-btn:active { transform: scale(0.97); }
   .submit-btn:disabled { background: var(--border); cursor: not-allowed; transform: none; }
 
-  /* Loading */
   .loading {
     display: none;
     align-items: center;
@@ -171,7 +162,6 @@
     40% { transform: translateY(-5px); opacity: 1; }
   }
 
-  /* Result card */
   .result-card {
     display: none;
     background: white;
@@ -232,7 +222,6 @@
 
   .speak-icon { font-size: 0.95rem; }
 
-  /* Notes strip */
   .notes-strip {
     background: var(--cream);
     border-bottom: 1px solid var(--border);
@@ -242,10 +231,7 @@
     font-style: italic;
   }
 
-  /* Vocabulary table */
-  .vocab-section {
-    padding: 20px 24px 24px;
-  }
+  .vocab-section { padding: 20px 24px 24px; }
 
   .vocab-label {
     font-size: 0.68rem;
@@ -283,10 +269,7 @@
     padding-right: 12px;
   }
 
-  .td-type {
-    width: 20%;
-    padding-right: 12px;
-  }
+  .td-type { width: 20%; padding-right: 12px; }
 
   .type-badge {
     font-size: 0.65rem;
@@ -304,12 +287,9 @@
   .badge-adj  { background: rgba(44,110,164,0.1);  color: #2c6ea4; }
   .badge-adv  { background: rgba(39,174,96,0.1);   color: #1e8449; }
   .badge-prep { background: rgba(142,68,173,0.1);  color: #7d3c98; }
-  .badge-other{ background: rgba(0,0,0,0.06);       color: var(--muted); }
+  .badge-other{ background: rgba(0,0,0,0.06);      color: var(--muted); }
 
-  .td-english {
-    color: var(--ink);
-    width: 50%;
-  }
+  .td-english { color: var(--ink); width: 50%; }
 
   .infinitive-note {
     font-size: 0.75rem;
@@ -318,68 +298,6 @@
     font-style: italic;
   }
 
-  /* API Key section */
-  .apikey-section {
-    margin-bottom: 40px;
-    padding: 16px 20px;
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-  }
-
-  .apikey-section.saved {
-    background: rgba(39,174,96,0.06);
-    border-color: rgba(39,174,96,0.3);
-  }
-
-  .apikey-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .apikey-input {
-    flex: 1;
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 9px 12px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.82rem;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .apikey-input:focus { border-color: var(--red); }
-
-  .apikey-btn {
-    background: var(--ink);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 9px 16px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.2s;
-  }
-
-  .apikey-btn:hover { background: #333; }
-
-  .apikey-status {
-    margin-top: 8px;
-    font-size: 0.72rem;
-    color: var(--muted);
-  }
-
-  .apikey-status.ok { color: #1e8449; }
-
-  /* Error */
   .error-msg {
     display: none;
     background: rgba(192,57,43,0.08);
@@ -393,7 +311,6 @@
 
   .error-msg.visible { display: block; }
 
-  /* Footer */
   footer {
     margin-top: 64px;
     padding-top: 20px;
@@ -411,23 +328,6 @@
     <div class="logo">Habl<span>a</span></div>
     <div class="tagline">Spain Spanish · Phrase Helper</div>
   </header>
-
-  <div class="apikey-section" id="apikey-section">
-    <label class="input-label" for="apikey-input">Anthropic API Key</label>
-    <div class="apikey-row">
-      <input
-        type="password"
-        id="apikey-input"
-        class="apikey-input"
-        placeholder="sk-ant-..."
-        autocomplete="off"
-        spellcheck="false"
-      />
-      <button class="apikey-btn" onclick="saveKey()">Save</button>
-      <button class="apikey-btn" style="background:var(--muted)" onclick="clearKey()">Clear</button>
-    </div>
-    <div class="apikey-status" id="apikey-status">Stored in your browser only — never sent anywhere except the Anthropic API.</div>
-  </div>
 
   <div class="input-section">
     <label class="input-label" for="phrase-input">What did you want to say?</label>
@@ -451,8 +351,8 @@
   <div class="result-card" id="result-card">
     <div class="result-header">
       <div class="spanish-phrase" id="spanish-phrase"></div>
-      <button class="speak-btn" id="speak-btn" onclick="speak()">
-        <span class="speak-icon">▶</span> Escuchar
+      <button class="speak-btn" onclick="speak()">
+        <span class="speak-icon">&#9654;</span> Escuchar
       </button>
     </div>
     <div class="notes-strip" id="notes-strip"></div>
@@ -467,55 +367,16 @@
 </div>
 
 <script>
-  const input = document.getElementById('phrase-input');
-  const submitBtn = document.getElementById('submit-btn');
-  const loading = document.getElementById('loading');
-  const resultCard = document.getElementById('result-card');
-  const spanishPhrase = document.getElementById('spanish-phrase');
-  const notesStrip = document.getElementById('notes-strip');
-  const vocabTable = document.getElementById('vocab-table');
-  const errorMsg = document.getElementById('error-msg');
-  const apikeyInput = document.getElementById('apikey-input');
-  const apikeyStatus = document.getElementById('apikey-status');
-  const apikeySection = document.getElementById('apikey-section');
+  var input = document.getElementById('phrase-input');
+  var submitBtn = document.getElementById('submit-btn');
+  var loading = document.getElementById('loading');
+  var resultCard = document.getElementById('result-card');
+  var spanishPhrase = document.getElementById('spanish-phrase');
+  var notesStrip = document.getElementById('notes-strip');
+  var vocabTable = document.getElementById('vocab-table');
+  var errorMsg = document.getElementById('error-msg');
 
-  let currentPhrase = '';
-
-  // Load saved key on startup
-  const savedKey = localStorage.getItem('habla_api_key');
-  if (savedKey) {
-    apikeyInput.value = savedKey;
-    showKeySaved();
-  }
-
-  function saveKey() {
-    const key = apikeyInput.value.trim();
-    if (!key.startsWith('sk-ant-')) {
-      apikeyStatus.textContent = "That doesn't look right — Anthropic keys start with sk-ant-";
-      apikeyStatus.className = 'apikey-status';
-      return;
-    }
-    localStorage.setItem('habla_api_key', key);
-    showKeySaved();
-  }
-
-  function clearKey() {
-    localStorage.removeItem('habla_api_key');
-    apikeyInput.value = '';
-    apikeySection.classList.remove('saved');
-    apikeyStatus.textContent = 'Stored in your browser only — never sent anywhere except the Anthropic API.';
-    apikeyStatus.className = 'apikey-status';
-  }
-
-  function showKeySaved() {
-    apikeySection.classList.add('saved');
-    apikeyStatus.textContent = '✓ Key saved in localStorage — ready to use.';
-    apikeyStatus.className = 'apikey-status ok';
-  }
-
-  function getKey() {
-    return localStorage.getItem('habla_api_key') || apikeyInput.value.trim();
-  }
+  var currentPhrase = '';
 
   input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -525,32 +386,20 @@
   });
 
   async function translate() {
-    const text = input.value.trim();
+    var text = input.value.trim();
     if (!text) return;
 
-    const apiKey = getKey();
-    if (!apiKey) {
-      showError('Please enter and save your Anthropic API key above first.');
-      return;
-    }
-
-    // Reset UI
     submitBtn.disabled = true;
     loading.classList.add('visible');
     resultCard.classList.remove('visible');
     errorMsg.classList.remove('visible');
 
-    const prompt = 'The user is learning Spain Spanish (Castilian, Spain). They want to say the following in English:\n\n"' + text + '"\n\nRespond ONLY with a valid JSON object — no markdown, no backticks, no explanation. Use this exact structure:\n\n{\n  "spanish": "the most natural, everyday Spain Spanish way to say this",\n  "note": "one short sentence about anything Spain-specific, tense used, or register (formal/informal) — keep it under 15 words",\n  "words": [\n    {\n      "spanish": "word as used in the sentence",\n      "type": "verb|noun|adjective|adverb|preposition|other",\n      "english": "translation of this word in context",\n      "infinitive": "if verb: the infinitive form, otherwise null"\n    }\n  ]\n}\n\nFor compound forms like \'voy a\', list each token separately. List words in the order they appear.';
+    var prompt = 'The user is learning Spain Spanish (Castilian, Spain). They want to say the following in English:\n\n"' + text + '"\n\nRespond ONLY with a valid JSON object - no markdown, no backticks, no explanation. Use this exact structure:\n\n{"spanish":"the most natural, everyday Spain Spanish way to say this","note":"one short sentence about anything Spain-specific, tense used, or register - keep it under 15 words","words":[{"spanish":"word as used in the sentence","type":"verb|noun|adjective|adverb|preposition|other","english":"translation of this word in context","infinitive":"if verb: the infinitive form, otherwise null"}]}\n\nFor compound forms like voy a, list each token separately. List words in the order they appear.';
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      var response = await fetch('/api/translate', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': apiKey,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'claude-haiku-4-5-20251001',
           max_tokens: 1000,
@@ -558,18 +407,18 @@
         })
       });
 
-      const data = await response.json();
+      var data = await response.json();
 
       if (!response.ok) {
-        const msg = (data && data.error && data.error.message) ? data.error.message : ('API error ' + response.status);
+        var msg = (data && data.error && data.error.message) ? data.error.message : ('Error ' + response.status);
         showError('API error: ' + msg);
         console.error(data);
         return;
       }
 
-      const raw = data.content.map(function(b) { return b.text || ''; }).join('');
-      const clean = raw.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(clean);
+      var raw = data.content.map(function(b) { return b.text || ''; }).join('');
+      var clean = raw.replace(/```json|```/g, '').trim();
+      var parsed = JSON.parse(clean);
 
       currentPhrase = parsed.spanish;
       renderResult(parsed);
@@ -589,18 +438,17 @@
 
     vocabTable.innerHTML = '';
     (data.words || []).forEach(function(w) {
-      const tr = document.createElement('tr');
+      var tr = document.createElement('tr');
 
-      const badgeMap = {
+      var badgeMap = {
         verb: 'badge-verb',
         noun: 'badge-noun',
         adjective: 'badge-adj',
         adverb: 'badge-adv',
         preposition: 'badge-prep'
       };
-      const badgeClass = badgeMap[w.type] || 'badge-other';
-
-      const infinitiveLine = w.infinitive
+      var badgeClass = badgeMap[w.type] || 'badge-other';
+      var infinitiveLine = w.infinitive
         ? '<div class="infinitive-note">infinitive: ' + w.infinitive + '</div>'
         : '';
 
@@ -619,19 +467,18 @@
     if (!currentPhrase) return;
     window.speechSynthesis.cancel();
 
-    const utt = new SpeechSynthesisUtterance(currentPhrase);
+    var utt = new SpeechSynthesisUtterance(currentPhrase);
     utt.lang = 'es-ES';
     utt.rate = 0.88;
 
-    const voices = window.speechSynthesis.getVoices();
-    const esVoice = voices.find(function(v) { return v.lang === 'es-ES'; }) ||
-                    voices.find(function(v) { return v.lang.startsWith('es'); });
+    var voices = window.speechSynthesis.getVoices();
+    var esVoice = voices.find(function(v) { return v.lang === 'es-ES'; }) ||
+                  voices.find(function(v) { return v.lang.startsWith('es'); });
     if (esVoice) utt.voice = esVoice;
 
     window.speechSynthesis.speak(utt);
   }
 
-  // Load voices early (some browsers need this)
   window.speechSynthesis.getVoices();
 
   function showError(msg) {
